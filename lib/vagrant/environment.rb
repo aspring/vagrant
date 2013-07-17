@@ -87,7 +87,7 @@ module Vagrant
       opts[:vagrantfile_name] = [opts[:vagrantfile_name]] if \
         !opts[:vagrantfile_name].is_a?(Array)
       
-      # Set the local data path to store the .vagrant directory
+      # Set the local data path based on environment variable if it is set
       opts[:local_data_path] ||= ENV["VAGRANT_LOCAL_DATA_PATH"] if \
         ENV.has_key?("VAGRANT_LOCAL_DATA_PATH")
 
