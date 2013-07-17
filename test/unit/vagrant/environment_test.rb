@@ -210,6 +210,15 @@ describe Vagrant::Environment do
         instance.local_data_path.to_s.should == dir
       end
     end
+    
+    it "should use a custom data directory specified by env var" do
+      Dir.mktmpdir do |temp_dir|
+        env = with_temp_env("VAGRANT_LOCAL_DATA_PATH" => temp_dir) do
+          described_class.new
+        end
+        env.local_data_path.to_s.should == temp_dir
+      end
+    end
 
     describe "upgrading V1 dotfiles" do
       let(:v1_dotfile_tempfile) { Tempfile.new("vagrant") }
@@ -391,15 +400,6 @@ VF
       end
 
       env.config_global.ssh.port.should == 400
-    end
-    
-    it "should use a custom data directory specified by env var" do
-      Dir.mktmpdir do |temp_dir|
-        env = with_temp_env("VAGRANT_LOCAL_DATA_PATH" => temp_dir) do
-          described_class.new
-        end
-        env.local_data_path.should == Pathname.new(temp_dir)
-      end
     end
   end
   
