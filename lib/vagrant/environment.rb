@@ -86,6 +86,10 @@ module Vagrant
       opts[:vagrantfile_name] ||= ["Vagrantfile", "vagrantfile"]
       opts[:vagrantfile_name] = [opts[:vagrantfile_name]] if \
         !opts[:vagrantfile_name].is_a?(Array)
+      
+      # Set the local data path to store the .vagrant directory
+      opts[:local_data_path] ||= ENV["VAGRANT_LOCAL_DATA_PATH"] if \
+        ENV.has_key?("VAGRANT_LOCAL_DATA_PATH")
 
       # Set instance variables for all the configuration parameters.
       @cwd              = opts[:cwd]

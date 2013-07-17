@@ -392,8 +392,17 @@ VF
 
       env.config_global.ssh.port.should == 400
     end
+    
+    it "should use a custom data directory specified by env var" do
+      Dir.mktmpdir do |temp_dir|
+        env = with_temp_env("VAGRANT_LOCAL_DATA_PATH" => temp_dir) do
+          described_class.new
+        end
+        env.local_data_path.should == Pathname.new(temp_dir)
+      end
+    end
   end
-
+  
   describe "ui" do
     it "should be a silent UI by default" do
       described_class.new.ui.should be_kind_of(Vagrant::UI::Silent)
